@@ -5,6 +5,14 @@ service "monit" do
   action [ :enable, :start ]
 end
 
+cookbook_file "/etc/default/monit" do
+    source "monit"
+    owner "root"
+    group "root"
+    mode 0644
+    notifies :restart, resources(:service => "monit")
+end
+
 template "/etc/monit/monitrc" do
     source "monitrc.erb"
     owner "root"
@@ -22,3 +30,4 @@ end
         notifies :restart, resources(:service => "monit")
     end
 end
+
